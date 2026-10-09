@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AeroGuard AI Simulator | Defensive Training</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brandmark">AG<span>+</span></div>
+  <div class="brand"><strong>AEROGUARD</strong><small>AI SIMULATOR / DEFENSIVE TRAINING</small></div>
+  <div class="topright"><span class="live-dot"></span> LOCAL SIMULATION <span class="pill">SIH 2026 · PS SIH26247</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div><div class="eyebrow">COUNTER-UAS DECISION TRAINER</div>
+      <h1>See the signal.<br><span>Make the right call.</span></h1>
+      <p>Practice detection, classification and safe escalation in repeatable synthetic airspace scenarios. Every decision becomes measurable feedback.</p>
+    </div>
+    <div class="hero-stat"><div class="stat-label">TRAINING MODE</div><div class="stat-big">SIM<span> / </span>01</div><div class="stat-foot">No live sensors or hardware connected</div></div>
+  </section>
+
+  <section class="setup panel">
+    <div class="section-head"><div><span class="eyebrow">01 / SCENARIO DESIGN</span><h2>Build a training run</h2></div><span class="status-chip">PROCEDURAL</span></div>
+    <div class="controls">
+      <label>Environment<select id="environment"><option>Urban</option><option>Rural</option><option selected>Critical Infrastructure</option></select></label>
+      <label>Weather<select id="weather"><option>Clear</option><option selected>Fog</option><option>Rain</option><option>Crosswind</option></select></label>
+      <label>Difficulty<select id="difficulty"><option>Beginner</option><option>Intermediate</option><option selected>Advanced</option></select></label>
+      <label>Threat pattern<select id="threat_mode"><option>Mixed</option><option>Single threat</option><option selected>Swarm pattern</option></select></label>
+      <button id="generate" class="primary">Generate scenario <span>↗</span></button>
+    </div>
+  </section>
+
+  <section class="dashboard">
+    <div class="panel radar-panel">
+      <div class="section-head"><div><span class="eyebrow">02 / SYNTHETIC SENSOR FEED</span><h2>Airspace overview</h2></div><span id="scenarioId" class="mono">AWAITING SCENARIO</span></div>
+      <div class="radar" id="radar">
+        <div class="radar-grid"></div><div class="crosshair"></div><div class="range-label r1">1 KM</div><div class="range-label r2">2 KM</div><div class="range-label r3">3 KM</div>
+        <div id="tracks"></div><div class="radar-center">AG<span>•</span></div>
+      </div>
+      <div class="legend"><span><i class="dot detected"></i> Synthetic track</span><span><i class="dot selected-dot"></i> Selected track</span><span class="muted">Positions are illustrative</span></div>
+      <div class="weather-strip"><span>ENVIRONMENT <b id="envReadout">—</b></span><span>WEATHER <b id="weatherReadout">—</b></span><span>TRACKS <b id="trackCount">0</b></span></div>
+    </div>
+    <div class="panel track-panel">
+      <div class="section-head"><div><span class="eyebrow">03 / TRACK INTELLIGENCE</span><h2>Detected objects</h2></div><span id="reviewCount" class="count">0 reviewed</span></div>
+      <div id="trackList" class="track-list"><div class="empty">Generate a scenario to populate synthetic tracks.</div></div>
+    </div>
+  </section>
+
+  <section class="panel decision-panel">
+    <div class="section-head"><div><span class="eyebrow">04 / HUMAN-IN-THE-LOOP</span><h2>Decision console</h2></div><span class="status-chip">TRAINING ONLY</span></div>
+    <div id="noSelection" class="empty wide">Select a track above to review its indicators and record your decision.</div>
+    <div id="decisionForm" class="decision-grid hidden">
+      <div class="indicator-box"><div class="mini-label">SELECTED TRACK</div><h3 id="selectedId">—</h3><p id="selectedKind">—</p><div class="indicator-row"><span>Confidence</span><b id="selectedConfidence">—</b></div><div class="meter"><i id="confidenceMeter"></i></div><div class="indicator-row"><span>Signal strength</span><b id="selectedSignal">—</b></div><div class="indicator-row"><span>Observed behavior</span><b id="selectedBehavior">—</b></div></div>
+      <div class="choice-box"><label>Classification <select id="classification"><option>Threat</option><option>Benign</option><option>Uncertain</option></select></label><p class="hint">Use “Uncertain” when evidence is insufficient. Avoid overconfident decisions.</p>
+        <label>Response decision <select id="response"><option>Continue monitoring</option><option>Notify supervisor</option><option>Simulated protective protocol</option></select></label><p class="hint">Responses are training actions only; no external system is contacted.</p>
+        <button id="submitAction" class="primary">Record decision <span>→</span></button><div id="actionMessage" class="message"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aar-row">
+    <div class="panel aar-panel"><div class="section-head"><div><span class="eyebrow">05 / AFTER-ACTION REVIEW</span><h2>Performance summary</h2></div><span id="aarStatus" class="status-chip">NOT STARTED</span></div>
+      <div id="aarContent" class="aar-content"><div class="aar-placeholder"><div class="placeholder-icon">◎</div><strong>Your decisions become data.</strong><p>Finish a run to see classification accuracy, missed tracks and recommended next steps.</p></div></div>
+      <div class="aar-actions"><button id="finish" class="secondary">Finish & review</button><a id="export" class="secondary disabled" href="/api/report.json">Export AAR JSON ↓</a></div>
+    </div>
+    <div class="panel objectives"><span class="eyebrow">TRAINING OBJECTIVES</span><div class="objective"><span>01</span><div><b>Detect</b><small>Review every synthetic track</small></div></div><div class="objective"><span>02</span><div><b>Classify</b><small>Balance confidence with evidence</small></div></div><div class="objective"><span>03</span><div><b>Escalate safely</b><small>Choose a proportionate response</small></div></div><div class="objective"><span>04</span><div><b>Improve</b><small>Use the AAR to guide the next run</small></div></div></div>
+  </section>
+  <footer><span>AEROGUARD AI SIMULATOR · PROTOTYPE BUILD 0.1</span><span>Synthetic data · Local-only · No operational control capability</span></footer>
+</main>
+<div id="toast" class="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
